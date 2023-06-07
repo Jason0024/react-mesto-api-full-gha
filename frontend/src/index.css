@@ -1,0 +1,64 @@
+@import url(./vendor/normalize.css);
+@import url(./vendor/fonts/inter.css);
+@import url(./blocks/body/body.css);
+@import url(./blocks/page/page.css);
+
+/* Стили для Header Начало */
+@import url(./blocks/header/header.css);
+@import url(./blocks/header/__logo/header__logo.css);
+/* Стили для Header Конец */
+
+/* Стили для Content Начало */
+@import url(./blocks/content/content.css);
+/* Стили для Content Конец */
+
+/* Стили для секции profile Начало */
+@import url(./blocks/profile/profile.css);
+@import url(./blocks/profile/__avatar/profile__avatar.css);
+@import url(./blocks/profile/__avatar-btn/profile__avatar-btn.css);
+@import url(./blocks/profile/__info/profile__info.css);
+@import url(./blocks/profile/__name/profile__name.css);
+@import url(./blocks/profile/__job/profile__job.css);
+@import url(./blocks/profile/__edit/profile__edit.css);
+@import url(./blocks/profile/__add-button/profile__add-button.css);
+/* Стили для секции profile Конец */
+
+/* Стили для секции elements Начало */
+@import url(./blocks/elements/elemenst.css);
+@import url(./blocks/element-grid/element-grid.css);
+@import url(./blocks/element-grid/__item/element-grid__item.css);
+@import url(./blocks/element-grid/__delete/element-grid__delete.css);
+@import url(./blocks/element-grid/__delete/_hidden/element-grid__delete_hidden.css);
+@import url(./blocks/element-grid/__pic/element-grid__pic.css);
+@import url(./blocks/element-grid/__item-description/element-grid__item-description.css);
+@import url(./blocks/element-grid/__title/element-grid__title.css);
+@import url(./blocks/element-grid/__like/element-grid__like.css);
+@import url(./blocks/element-grid/__like/_active/element-grid__like_active.css);
+@import url(./blocks/element-grid/__likes/element-grid__likes.css);
+@import url(./blocks/element-grid/__likes-number/element-grid__likes-number.css);
+/* Стили для секции elements Конец */
+
+/* Стили для секции footer Начало */
+@import url(./blocks/footer/footer.css);
+/* Стили для секции footer Конец */
+
+/* Стили для popup Начало */
+@import url(./blocks/popup/popup.css);
+@import url(./blocks/popup/popup.css);
+@import url(./blocks/popup/_type/popup_type_modal.css);
+@import url(./blocks/popup/_open/popup_open.css);
+@import url(./blocks/popup/__container/popup__container.css);
+@import url(./blocks/popup/__title/popup__title.css);
+@import url(./blocks/popup/__title-delete-card/popup__title-delete-card.css);
+@import url(./blocks/popup/__field/popup__field.css);
+@import url(./blocks/popup/__input/popup__input.css);
+@import url(./blocks/popup/__submit/popup__submit.css);
+@import url(./blocks/popup/__submit/_disabled/popup__submit_disabled.css);
+@import url(./blocks/popup/__close/popup__close.css);
+@import url(./blocks/popup/__pic/popup__pic.css);
+@import url(./blocks/popup/__caption/popup__caption.css);
+@import url(./blocks/popup/__input/_type/popup__input_type_error.css);
+@import url(./blocks/popup/__input-error/popup__input-error.css);
+@import url(./blocks/popup/__input-error/_active/popup__input-error_active.css);
+@import url(./blocks/popup/__figure/popup__figure.css);
+/* Стили для popup Конец */
