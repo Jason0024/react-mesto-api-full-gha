@@ -6,6 +6,8 @@
 /* Стили для Header Начало */
 @import url(./blocks/header/header.css);
 @import url(./blocks/header/__logo/header__logo.css);
+@import url(./blocks/header/__member-area/header__member-area.css);
+@import url(./blocks/header/__menu-item/header__menu-item.css);
 /* Стили для Header Конец */
 
 /* Стили для Content Начало */
@@ -62,3 +64,16 @@
 @import url(./blocks/popup/__input-error/_active/popup__input-error_active.css);
 @import url(./blocks/popup/__figure/popup__figure.css);
 /* Стили для popup Конец */
+
+/* Стили авторизации */
+@import url(./blocks/auth/auth.css);
+@import url(./blocks/auth/__button/auth__button.css);
+@import url(./blocks/auth/__form/auth__form.css);
+@import url(./blocks/auth/__input/auth__input.css);
+@import url(./blocks/auth/__label/auth__label.css);
+@import url(./blocks/auth/__title-form/auth__title-form.css);
+@import url(./blocks/auth/__register/auth__register.css);
+@import url(./blocks/auth/__link/auth__link.css);
+@import url(./blocks/auth/__status-icon/auth__status-icon.css);
+@import url(./blocks/auth/__status-text/auth__status-text.css);
+@import url(./blocks/auth/__info/auth__info.css);
