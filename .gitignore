@@ -1,5 +1,7 @@
 /node_modules
 /.idea
+/.vscode
+/.pnp
 .pnp.js
 /coverage
 /build
@@ -11,3 +13,8 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.env
+.npm
+node_modules
+logs
+*.log
