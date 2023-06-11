@@ -14,7 +14,7 @@ import ProtectedRoute from './ProtectedRoute';
 
 import Register from './Register';
 import Login from './Login';
-import { CurrentUserContext } from '../context/CurrentUserContext';
+import CurrentUserContext  from '../context/CurrentUserContext';
 
 import InfoTooltip from "./InfoTooltip";
 import apiConnect from '../utils/Api';
