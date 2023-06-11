@@ -47,6 +47,6 @@ class AuthApi {
 }
 
 // Создание экземпляра класса
-const apiAuth = new AuthApi('https://auth.nomoreparties.co/');
+const apiAuth = new AuthApi('https://api.jason.student.nomoredomains.rocks/');
 // Экспорт экземпляра класса
 export default apiAuth;
