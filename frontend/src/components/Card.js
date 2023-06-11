@@ -6,12 +6,12 @@ function Card({card, onCardClick, onCardLike, onCardDelete}) {
     const handleLikeClick = ()=>{ onCardLike(card); }
     const handleDeleteClick = ()=>{ onCardDelete(card); }
     // Подписка на контекст
-    const userItem = React.useContext(CurrentUserContext);
+    const currentUser = React.useContext(CurrentUserContext);
     // Определение владения карточкой
-    const isOwn = card.owner._id === userItem._id;
+    const isOwn = card.owner._id === currentUser._id;
     
     // Определение наличие поставленного лайка
-    const isLiked = props.card.likes.some(item => item === userItem._id);
+    const isLiked = card.likes.some(i => i._id === userItem._id);
     
     return (
             <li className="element-grid__item">
