@@ -25,7 +25,6 @@ class AuthApi {
   // Метод авторизации пользователя
   userAuthorization (password, email) {
     return fetch(`${this._authUrl}signin`, {
-      mode: 'no-cors',
       method: 'POST',
       headers: {
         "Content-Type": "application/json",
@@ -40,7 +39,6 @@ class AuthApi {
   // Метод регистрации пользователя
   userRegistration (password, email) {
     return fetch(`${this._authUrl}signup`, {
-      mode: 'no-cors',
       method: 'POST',
       headers: {
         "Content-Type": "application/json",
