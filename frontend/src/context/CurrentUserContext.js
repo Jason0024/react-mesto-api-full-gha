@@ -1,2 +1,4 @@
-import React from 'react';
-export const CurrentUserContext = React.createContext();
+import { createContext } from 'react';
+// Подвязка контекста
+const CurrentUserContext = createContext();
+export default CurrentUserContext;

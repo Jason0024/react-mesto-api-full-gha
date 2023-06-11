@@ -6,74 +6,68 @@ import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
 
+import ImagePopup from './ImagePopup';
 import PopupEditAvatar from './PopupEditAvatar';
 import PopupEditProfile from './PopupEditProfile';
 import PopupAddCard from './PopupAddCard';
-import ImagePopup from './ImagePopup';
-
 import ProtectedRoute from './ProtectedRoute';
+
 import Register from './Register';
 import Login from './Login';
-import InfoTooltip from "./InfoTooltip";
-
 import { CurrentUserContext } from '../context/CurrentUserContext';
+
+import InfoTooltip from "./InfoTooltip";
 import apiConnect from '../utils/Api';
 import apiAuth from '../utils/AuthApi';
 
 
 
 function App() {
-  const [currentUser, setCurrentUser] = useState({
-    "name": '',
-    "about": '',
-    "avatar": '',
-    "_id": '',
-    "cohort": ''
-  });
-  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
-  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
-  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
-  const [isImageOpen, setIsImageOpen] = useState(false);
-  const [selectedCard, setSelectedCard] = useState(null);
-  const [cards, setCards] = useState([]);
-
-  const [email, setEmail] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [status, setStatus] = useState(false);
-  const [tooltipOpen, setTooltipOpen] = useState(false);
-
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false); // Редактирование аватара
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false); // Редактирование профиля
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false); // Добавление карточки
+  const [isImageOpen, setIsImageOpen] = useState(false); // Увеличение изображения
+  const [selectedCard, setSelectedCard] = useState({}); // Передача данных при увеличении изображения
+  const [cards, setCards] = useState([]); // Инициализация карточек
+  const [currentUser, setCurrentUser] = useState({}); // Значение для провайдера контекста
+  const [email, setEmail] = useState(''); // Хранение и передача почты
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Состояние авторизации
+  const [status, setStatus] = useState(false); // Статус регистрации(авторизации), используется для Tooltip (popup уведомления)
+  const [tooltipOpen, setTooltipOpen] = useState(false); // Состояние Tooltip
+  // Переменная для хранения истории
   const history = useHistory();
-
-  useEffect(() => {
-    Promise.all([apiConnect.getUserData(), apiConnect.getInitialCards()])
-      .then((values) => {
-        setCurrentUser(values[0]);
-        setCards([...values[1]]);
+  // Рендер карточек и данных пользователя
+  useEffect( () => {
+    const token = localStorage.getItem('token');
+    if (token) { Promise.all([ apiConnect.getUserData(), apiConnect.getInitialCards() ])
+      .then(( [ userItem, initialCards] ) => {
+        setCurrentUser(userItem);
+        setCards(initialCards);
       })
-      .catch((err) => { console.log(`Возникла глобальная ошибка, ${err}`) })
-  }, [])
-
-  useEffect(() => {
-    const userToken = localStorage.getItem('token')
-    if (userToken) {
-      apiAuth.verifyToken(userToken)
-        .then((res) => { setEmail(res.data.email); setIsLoggedIn(true); history.push('/') })
-        .catch((err) => { console.log(`Возникла ошибка верификации токена, ${err}`) })
+      .catch( (err) => { console.log(`Возникла глобальная ошибка, ${err}`) })
+    }
+  }, [isLoggedIn])
+  // Верификация токена пользователя
+  useEffect( () => {
+    const token = localStorage.getItem('token');
+    if (token) { apiAuth.tokenVerification(token)
+        .then( (res) => { setIsLoggedIn(true); setEmail(res.email); history.push('/') })
+        .catch( (err) => { localStorage.removeItem('token'); console.log(`Возникла ошибка верификации токена, ${err}`) })
     }
   }, [history, isLoggedIn])
-
+  // Обработчик открытия попапа редактирования профиля
   const handleEditProfileClick = () => {
     setIsEditProfilePopupOpen(true);
   }
-
+  // Обработчик открытия попапа обновления аватара
   const handleEditAvatarClick = () => {
     setIsEditAvatarPopupOpen(true)
   }
-
+  // Обработчик открытия попапа добавления карточки
   const handleAddPlaceClick = () => {
     setIsAddPlacePopupOpen(true);
   }
-
+  // Обработчик для увеличения изображения и передачи данных
   const handleCardClick = (cardItem) => {
     setIsImageOpen(true);
     setSelectedCard({
@@ -82,7 +76,7 @@ function App() {
       link: cardItem.link
     })
   }
-
+  // Функция для закрытия всех попапов
   const closeAllPopups = () => {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
@@ -90,66 +84,56 @@ function App() {
     setIsImageOpen(false);
     setTooltipOpen(false);
   }
-
-  const handleUpdateUser = (userItem) => {
+  // Обработчик данных пользователя
+  function handleUpdateUser (userItem) {
     apiConnect.sendUserData(userItem.name, userItem.about)
-      .then((res) => { setCurrentUser(res); closeAllPopups() })
-      .catch((err) => { console.log(`Возникла ошибка при редактировании профиля, ${err}`) })
+      .then( (res) => { setCurrentUser(res); closeAllPopups() })
+      .catch( (err) => { console.log(`Возникла ошибка при редактировании профиля, ${err}`) })
   }
-
-  const handleUpdateAvatar = (link) => {
+  // Обработчик изменения аватара
+  function handleUpdateAvatar (link) {
     apiConnect.sendAvatarData(link)
-      .then((res) => { setCurrentUser(res); closeAllPopups() })
-      .catch((err) => { console.log(`Возникла ошибка при зименении аватара, ${err}`) })
+      .then( (res) => { setCurrentUser(res); closeAllPopups() })
+      .catch( (err) => { console.log(`Возникла ошибка при изменении аватара, ${err}`) })
   }
-
-
-  const handleCardLike = (card) => {
+  // Обработчик лайков карточки
+  function handleCardLike (card) {
     const isLiked = card.likes.some( (like) => like === currentUser._id );
     apiConnect.changeLikeCardStatus(card._id, !isLiked)
-    .then( (cardItem) => {
-      setCards( (listCards) => listCards.map( (item) => (item._id === card._id ? cardItem : item) ) );
-    })
-      .catch(err => {
-        console.log(err.status);
-        alert(`Ошибка загрузки данных карточки:\n ${err.status}\n ${err.text}`);
-      });
+      .then( (cardItem) => {
+        setCards( (listCards) => listCards.map( (item) => (item._id === card._id ? cardItem : item) ) );
+      })
+      .catch( (err) => { console.log(`Возникла ошибка при обработке лайков, ${err}`) })
   }
-
-  const handleAddCard = (cardItem) => {
+  // Обработчик добавления карточки
+  function handleAddCard (cardItem) {
     apiConnect.addNewCard(cardItem.name, cardItem.link)
-      .then((card) => { setCards([card, ...cards]); closeAllPopups() })
-      .catch((err) => { console.log(`Возникла ошибка при добавлении новой карточки, ${err}`) })
+      .then( (card) => { setCards([card, ...cards]); closeAllPopups() })
+      .catch( (err) => { console.log(`Возникла ошибка при добавлении новой карточки, ${err}`) })
   }
-
-  const handleCardDelete = (card) => {
+  // Обработчик удаления карточки
+  function handleCardDelete (card) {
     apiConnect.deleteCard(card._id)
-    .then( () => { setCards( (listCards) => listCards.filter((cardItem) => cardItem._id !== card._id) ); })
-    .catch((err) => { console.log(`Возникла ошибка при удалении карточки, ${err}`) })
-      .then(() => { setCards((cardsArray) => cardsArray.filter((cardItem) => cardItem._id !== card._id)) })
-      .catch((err) => { console.log(`Возникла ошибка при удалении карточки, ${err}`) })
+      .then( () => { setCards( (listCards) => listCards.filter((cardItem) => cardItem._id !== card._id) ); })
+      .catch( (err) => { console.log(`Возникла ошибка при удалении карточки, ${err}`) })
   }
-
-
+  // Функция регистрации пользователя (при успехе(и нет) всплывает popup через Tooltip используя статус)
   function handleRegister(password, email) {
     apiAuth.userRegistration(password, email)
       .then(() => { setTooltipOpen(true); setStatus(true) })
       .catch((err) => { console.log(`Возникла ошибка при регистрации пользователя, ${err}`); setTooltipOpen(true); setStatus(false) })
   }
-
-  function handleLogin(password, email) {
+  // Функция авторизации пользователя (при неудаче всплывает popup через Tooltip используя статус)
+  function handleLogin (password, email) {
     apiAuth.userAuthorization(password, email)
-      .then((res) => {
-        if (res.token) {
-          localStorage.setItem('token', res.token);
-          setEmail(email);
-          setIsLoggedIn(true);
-          history.push('/');
-        }
+      .then( () => {
+        // Если токен валиден, авторизовываем и перебрасываем на главную
+        const token = localStorage.getItem('token');
+        if (token) { setIsLoggedIn(true); setEmail(email); history.push('/') }
       })
-      .catch((err) => { console.log(`Возникла ошибка при авторизации, ${err}`); setTooltipOpen(true); setStatus(false) })
+      .catch( (err) => { console.log(`Возникла ошибка при авторизации, ${err}`); setTooltipOpen(true); setStatus(false) })
   }
-
+  // Функция выхода пользователя
   function handleLogout() { localStorage.removeItem('token'); setIsLoggedIn(false); }
 
   return (
