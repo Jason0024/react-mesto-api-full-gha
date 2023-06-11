@@ -50,7 +50,7 @@ function App() {
   // Верификация токена пользователя
   useEffect( () => {
     const token = localStorage.getItem('token');
-    if (token) { apiAuth.tokenVerification(token)
+    if (token) { apiAuth.verifyToken(token)
         .then( (res) => { setIsLoggedIn(true); setEmail(res.email); history.push('/') })
         .catch( (err) => { localStorage.removeItem('token'); console.log(`Возникла ошибка верификации токена, ${err}`) })
     }
