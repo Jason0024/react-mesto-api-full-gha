@@ -14,8 +14,7 @@ const Forbidden = require('../utils/response-errors/Forbidden'); // 403
 // Получение списка карточек
 const getCardList = (req, res, next) => {
   Card.find({})
-    .populate(['owner', 'likes'])
-    .then((cardList) => res.send({ data: cardList }))
+    .then((cardList) => res.send(cardList))
     .catch((error) => next(error));
 };
 
@@ -23,7 +22,7 @@ const getCardList = (req, res, next) => {
 const createCard = (req, res, next) => {
   const { name, link } = req.body;
   Card.create({ name, link, owner: req.user._id })
-    .then((cardObject) => res.status(SUCCESS_CREATED).send({ data: cardObject }))
+    .then((cardObject) => res.status(SUCCESS_CREATED).send(cardObject))
     .catch((error) => {
       // https://mongoosejs.com/docs/api/error.html#error_Error-ValidationError
       if (error instanceof ValidationError) {
@@ -37,10 +36,10 @@ const deleteCard = (req, res, next) => {
   Card.findById(req.params.cardId)
     .then((selectedCard) => {
       // Если пользователь не создатель или карточки нет
-      if (!selectedCard) { next(new NotFound('Карточка по указанному _id не найдена')); }
-      if (!selectedCard.owner.equals(req.user._id)) { next(new Forbidden('Вы не являетесь автором карточки, удаление невозможно')); }
+      if (!selectedCard) { return next(new NotFound('Карточка по указанному _id не найдена')); }
+      if (!selectedCard.owner.equals(req.user._id)) { return next(new Forbidden('Вы не являетесь автором карточки, удаление невозможно')); }
       // Возможность удаления, если пользователь — создатель и карточка есть в базе
-      Card.findByIdAndDelete(req.params.cardId)
+      return Card.findByIdAndDelete(req.params.cardId)
         .orFail(() => new NotFound('Карточка по указанному _id не найдена'))
         .then(() => { res.send({ message: 'Карточка успешно удалена с сервера' }); });
     })
@@ -61,7 +60,7 @@ const likeCard = (req, res, next) => {
   )
     .then((selectedCard) => {
       if (selectedCard) {
-        res.send({ data: selectedCard });
+        res.send(selectedCard);
       } else { next(new NotFound('Карточка по указанному _id не найдена')); }
     })
     .catch((error) => {
@@ -81,7 +80,7 @@ const removeLikeCard = (req, res, next) => {
   )
     .then((selectedCard) => {
       if (selectedCard) {
-        res.send({ data: selectedCard });
+        res.send(selectedCard);
       } else { next(new NotFound('Карточка по указанному _id не найдена')); }
     })
     .catch((error) => {

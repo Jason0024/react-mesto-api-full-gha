@@ -1,10 +1,7 @@
-import apiFindings from './apiFindings';
-
 class Api {
-    constructor({ link, headers }) {
-        this._link = link;
-        this._headers = headers;
-    }
+    constructor(apiAddress) {
+    this._link = apiAddress;
+  }
     // Метод обработки ответа сервера
     _parseResponse(res) {
         if (res.ok) {
@@ -23,14 +20,20 @@ class Api {
     // Метод инициализации карточек с сервера
     getInitialCards() {
         return this._request(`${this._link}/cards`, {
-            headers: this._headers
+            headers: {
+                'Content-Type': 'application/json',
+                authorization: `Bearer ${ localStorage.getItem('token') }`,
+              },
         })
     }
     // Метод добавления новой карточки на сервер
     addNewCard(name, link) {
         return this._request(`${this._link}/cards`, {
             method: 'POST',
-            headers: this._headers,
+            headers: {
+                'Content-Type': 'application/json',
+                authorization: `Bearer ${ localStorage.getItem('token') }`,
+              },
             body: JSON.stringify({ name, link })
         })
     }
@@ -38,20 +41,29 @@ class Api {
     deleteCard(cardId) {
         return this._request(`${this._link}/cards/${cardId}`, {
             method: 'DELETE',
-            headers: this._headers
+            headers: {
+                'Content-Type': 'application/json',
+                authorization: `Bearer ${ localStorage.getItem('token') }`,
+              },
         })
     }
     // Метод получения данных пользователя с сервера
     getUserData() {
         return this._request(`${this._link}/users/me`, {
-            headers: this._headers
+            headers: {
+                'Content-Type': 'application/json',
+                authorization: `Bearer ${ localStorage.getItem('token') }`,
+              },
         })
     }
     // Метод редактирования данных пользователя с отправкой на сервер
     sendUserData(userName, userAbout) {
         return this._request(`${this._link}/users/me`, {
             method: 'PATCH',
-            headers: this._headers,
+            headers: {
+                'Content-Type': 'application/json',
+                authorization: `Bearer ${ localStorage.getItem('token') }`,
+              },
             body: JSON.stringify({ name: userName, about: userAbout })
         })
     }
@@ -59,25 +71,33 @@ class Api {
     sendAvatarData(avatarLink) {
         return this._request(`${this._link}/users/me/avatar`, {
             method: 'PATCH',
-            headers: this._headers,
+            headers: {
+                'Content-Type': 'application/json',
+                authorization: `Bearer ${ localStorage.getItem('token') }`,
+              },
             body: JSON.stringify({
                 avatar: avatarLink.avatar
             })
         })
     }
     // Метод обработки лайков карточки
-
     setLike(cardId) {
         return this._request(`${this._link}/cards/${cardId}/likes`, {
             method: "PUT",
-            headers: this._headers
+            headers: {
+                'Content-Type': 'application/json',
+                authorization: `Bearer ${ localStorage.getItem('token') }`,
+              },
         })
     }
 
     deleteLike(cardId) {
         return this._request(`${this._link}/cards/${cardId}/likes`, {
             method: "DELETE",
-            headers: this._headers
+            headers: {
+                'Content-Type': 'application/json',
+                authorization: `Bearer ${ localStorage.getItem('token') }`,
+              },
         })
     }
 
@@ -92,7 +112,7 @@ class Api {
 }
 
 // Создание экземпляра класса
-const apiConnect = new Api(apiFindings);
+const apiConnect = new Api('https://api.jason.student.nomoredomains.rocks');
 
 // Экспорт класса
 export default apiConnect;

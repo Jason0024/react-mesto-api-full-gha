@@ -11,7 +11,7 @@ function Card({card, onCardClick, onCardLike, onCardDelete}) {
     const isOwn = card.owner._id === userItem._id;
     
     // Определение наличие поставленного лайка
-    const isLiked = card.likes.some(i => i._id === userItem._id);
+    const isLiked = props.card.likes.some(item => item === userItem._id);
     
     return (
             <li className="element-grid__item">

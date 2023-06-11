@@ -79,11 +79,11 @@ function App() {
 
   // Обработчик лайков карточки
   const handleCardLike = (card) => {
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    const isLiked = card.likes.some( (like) => like === currentUser._id );
     apiConnect.changeLikeCardStatus(card._id, !isLiked)
-      .then((newCard) => {
-        setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
-      })
+    .then( (cardItem) => {
+      setCards( (listCards) => listCards.map( (item) => (item._id === card._id ? cardItem : item) ) );
+    })
       .catch(err => {
         console.log(err.status);
         alert(`Ошибка загрузки данных карточки:\n ${err.status}\n ${err.text}`);
@@ -99,7 +99,7 @@ function App() {
 
   const handleCardDelete = (card)=> {
     apiConnect.deleteCard(card._id)
-    .then(() => { setCards((cardsArray) => cardsArray.filter((cardItem) => cardItem._id !== card._id)) })
+    .then( () => { setCards( (listCards) => listCards.filter((cardItem) => cardItem._id !== card._id) ); })
     .catch((err) => { console.log(`Возникла ошибка при удалении карточки, ${err}`) })
   }
 

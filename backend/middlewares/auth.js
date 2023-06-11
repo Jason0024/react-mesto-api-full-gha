@@ -13,10 +13,10 @@ module.exports = (req, res, next) => {
 
   let payload;
   // Избавляемся от Bearer и записываем токен
-  const userToken = authorization.replace('Bearer ', '');
+  const token = authorization.replace('Bearer ', '');
 
   try {
-    payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'token-generate-key');
+    payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret');
   } catch (_) {
     return next(new Unauthorized('Для доступа необходимо выполнить авторизацию'));
   }

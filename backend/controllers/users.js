@@ -17,8 +17,8 @@ const ConflictingRequest = require('../utils/response-errors/ConflictingRequest'
 // Получение списка пользователей
 const getUserList = (req, res, next) => {
   User.find({})
-    .then((userList) => res.send({ data: userList }))
-    .catch((error) => next(error));
+    .then((userList) => res.send(userList))
+    .catch(next);
 };
 
 // Получение пользователя по ID
@@ -26,7 +26,7 @@ const getUserId = (req, res, next) => {
   User.findById(req.params.userId)
     .then((selectedUser) => {
       if (selectedUser) {
-        res.send({ data: selectedUser });
+        res.send(selectedUser);
       } else { next(new NotFound('Пользователь по указанному _id не найден')); }
     })
     .catch((error) => {
@@ -67,7 +67,7 @@ const updateUserData = (req, res, next) => {
     new: true,
     runValidators: true,
   })
-    .then((updatedData) => res.send({ data: updatedData }))
+    .then((updatedData) => res.send(updatedData))
     .catch((error) => {
       // https://mongoosejs.com/docs/api/error.html#error_Error-CastError
       if (error instanceof ValidationError) {
@@ -83,7 +83,7 @@ const updateUserAvatar = (req, res, next) => {
     new: true,
     runValidators: true,
   })
-    .then((updatedAvatar) => res.send({ data: updatedAvatar }))
+    .then((updatedAvatar) => res.send(updatedAvatar))
     .catch((error) => {
       // https://mongoosejs.com/docs/api/error.html#error_Error-CastError
       if (error instanceof ValidationError) {
@@ -97,8 +97,8 @@ const authorizeUser = (req, res, next) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
     .then((selectedUser) => {
-      const userToken = jwt.sign({ _id: selectedUser._id }, NODE_ENV === 'production' ? JWT_SECRET : 'token-generate-key', { expiresIn: '7d' });
-      res.send({ userToken });
+      const token = jwt.sign({ _id: selectedUser._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
+      res.send({ token });
     })
     .catch((error) => next(error));
 };
@@ -109,7 +109,7 @@ const getUserProfile = (req, res, next) => {
     .then((selectedUser) => {
       if (!selectedUser) {
         next(new NotFound('Пользователь по указанному _id не найден'));
-      } else { res.send({ data: selectedUser }); }
+      } else { res.send(selectedUser); }
     })
     .catch((error) => { next(error); });
 };
