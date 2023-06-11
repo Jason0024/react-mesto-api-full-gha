@@ -1,6 +1,6 @@
 class AuthApi {
-  constructor(authUrl) {
-    this._authUrl = authUrl;
+  constructor(apiAddress) {
+    this._authUrl = apiAddress;
   }
   // Метод обработки ответа сервера
   _parseResponse (res) {
@@ -17,7 +17,7 @@ class AuthApi {
       // По умолчанию fetch — это GET, можно не указывать
       headers: {
         "Content-Type": "application/json",
-        "Authorization" : `Bearer ${token}`
+        Authorization : `Bearer ${token}`
       }
     })
       .then(this._parseResponse)
