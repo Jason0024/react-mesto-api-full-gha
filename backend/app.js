@@ -4,7 +4,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const { errors } = require('celebrate');
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3000, DB_URL = 'mongodb://127.0.0.1:27017/mestodb' } = process.env; 
 const cors = require('cors');
 
 // Защита сервера
@@ -28,17 +28,17 @@ const limiter = rateLimit({
 const responseHandler = require('./middlewares/response-handler');
 
 // Блок кода для работы с mongoDB
-const mongoDB = 'mongodb://127.0.0.1:27017/mestodb';
 mongoose.set('strictQuery', false);
-mongoose.connect(mongoDB);
+mongoose.connect(DB_URL);
 
 // Автоматически проставлять заголовки безопасности
 app.use(express.json());
-app.use(limiter);
 app.use(helmet());
 
 // Логгер
 app.use(requestLogger);
+// Лимитер
+app.use(limiter);
 // Краш-тест
 app.get('/crash-test', () => {
   setTimeout(() => {

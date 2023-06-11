@@ -112,7 +112,7 @@ class Api {
 }
 
 // Создание экземпляра класса
-const apiConnect = new Api('https://api.jason.student.nomoredomains.rocks');
+const apiConnect = new Api('https://api.jason.student.nomoredomains.rocks/');
 
 // Экспорт класса
 export default apiConnect;

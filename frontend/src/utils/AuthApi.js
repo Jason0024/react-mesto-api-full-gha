@@ -32,6 +32,9 @@ class AuthApi {
       body: JSON.stringify({ password, email })
     })
       .then(this._parseResponse)
+      .then((userData) => {
+        if (userData.token) { localStorage.setItem('token', userData.token) }
+      })
   }
   // Метод регистрации пользователя
   userRegistration (password, email) {
@@ -47,6 +50,6 @@ class AuthApi {
 }
 
 // Создание экземпляра класса
-const apiAuth = new AuthApi('https://auth.nomoreparties.co/');
+const apiAuth = new AuthApi('https://api.jason.student.nomoredomains.rocks/');
 // Экспорт экземпляра класса
 export default apiAuth;
