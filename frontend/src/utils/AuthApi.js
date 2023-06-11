@@ -1,6 +1,6 @@
 class AuthApi {
-  constructor(apiAddress) {
-    this._authUrl = apiAddress;
+  constructor(authUrl) {
+    this._authUrl = authUrl;
   }
   // Метод обработки ответа сервера
   _parseResponse (res) {
@@ -17,7 +17,7 @@ class AuthApi {
       // По умолчанию fetch — это GET, можно не указывать
       headers: {
         "Content-Type": "application/json",
-        Authorization : `Bearer ${token}`
+        "Authorization" : `Bearer ${token}`
       }
     })
       .then(this._parseResponse)
@@ -32,9 +32,6 @@ class AuthApi {
       body: JSON.stringify({ password, email })
     })
       .then(this._parseResponse)
-      .then((userData) => {
-        if (userData.token) { localStorage.setItem('token', userData.token) }
-      })
   }
   // Метод регистрации пользователя
   userRegistration (password, email) {
@@ -50,6 +47,6 @@ class AuthApi {
 }
 
 // Создание экземпляра класса
-const apiAuth = new AuthApi('https://api.jason.student.nomoredomains.rocks/');
+const apiAuth = new AuthApi('https://auth.nomoreparties.co/');
 // Экспорт экземпляра класса
 export default apiAuth;

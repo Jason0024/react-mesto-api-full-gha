@@ -11,9 +11,12 @@ function Login (props) {
   function handleSubmitButton (event) {
     event.preventDefault();
     props.handleLogin(password, email);
+  }
+
+  React.useEffect(() => {
     setPassword('');
     setEmail('');
-  }
+}, []);
 
   return (
       <div className="auth">
