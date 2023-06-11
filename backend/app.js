@@ -30,11 +30,9 @@ const responseHandler = require('./middlewares/response-handler');
 // Блок кода для работы с mongoDB
 mongoose.set('strictQuery', false);
 mongoose.connect(DB_URL);
-
 // Автоматически проставлять заголовки безопасности
 app.use(express.json());
 app.use(helmet());
-
 // Логгер
 app.use(requestLogger);
 // Лимитер

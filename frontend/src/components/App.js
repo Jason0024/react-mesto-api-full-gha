@@ -139,7 +139,7 @@ function App() {
     })
       .catch((err) => { console.log(`Возникла ошибка при авторизации, ${err}`); setTooltipOpen(true); setStatus(false) })
   }
-
+  // Функция выхода пользователя
   function handleLogout() { localStorage.removeItem('token'); setIsLoggedIn(false); }
 
   return (
