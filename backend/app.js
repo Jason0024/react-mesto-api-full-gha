@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const { errors } = require('celebrate');
 
 const { PORT = 3000, DB_URL = 'mongodb://127.0.0.1:27017/mestodb' } = process.env; 
-
+const cors = require('cors');
 // Защита сервера
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
@@ -15,13 +15,17 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const mainRouter = require('./routes/index');
 
 const app = express();
-//CORP alowd sites
-const allowedCors = [
-  'https://jason.student.nomoredomains.rocks/',
-  'http://jason.student.nomoredomains.rocks/',
-  'http://localhost:3000',
-  'http://localhost:3001',
-];
+app.use(cors());
+
+//CORS alowd sites
+//const allowedCors = [
+//  'https://jason.student.nomoredomains.rocks/',
+//  'http://jason.student.nomoredomains.rocks/',
+//  'http://localhost:3000',
+//  'http://localhost:3001',
+//];
+
+
 // Для защиты от множества автоматических запросов
 // https://www.npmjs.com/package/express-rate-limit
 const limiter = rateLimit({
@@ -41,23 +45,25 @@ app.use(helmet());
 app.use(requestLogger);
 // Лимитер
 app.use(limiter);
-//CORP config
-app.use((req, res, next) => {
-  const { origin } = req.headers;
-  const { method } = req;
-  const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
-  const requestHeaders = req.headers['access-control-request-headers'];
-  if (allowedCors.includes(origin)) {
-    res.header('Access-Control-Allow-Origin', origin);
-    res.header('Access-Control-Allow-Credentials', true);
-  }
-  if (method === 'OPTIONS') {
-    res.header('Access-Control-Allow-Methods', DEFAULT_ALLOWED_METHODS);
-    res.header('Access-Control-Allow-Headers', requestHeaders);
-    return res.end();
-  }
-  return next();
-});
+
+//CORS config
+//app.use((req, res, next) => {
+//  const { origin } = req.headers;
+//  const { method } = req;
+//  const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
+//  const requestHeaders = req.headers['access-control-request-headers'];
+//  if (allowedCors.includes(origin)) {
+//    res.header('Access-Control-Allow-Origin', origin);
+//    res.header('Access-Control-Allow-Credentials', true);
+//  }
+//  if (method === 'OPTIONS') {
+//    res.header('Access-Control-Allow-Methods', DEFAULT_ALLOWED_METHODS);
+//    res.header('Access-Control-Allow-Headers', requestHeaders);
+//    return res.end();
+//  }
+//  return next();
+//});
+
 // Краш-тест
 app.get('/crash-test', () => {
   setTimeout(() => {

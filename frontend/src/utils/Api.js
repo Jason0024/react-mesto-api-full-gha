@@ -80,16 +80,16 @@ class Api {
         .then(this._parseResponse)
       }
     // Метод обработки лайков карточки
-  changeLikeCardStatus(cardId, isLiked) {
-    const methodUsed = isLiked ? 'PUT' : 'DELETE';
-    return fetch(`${this._link}cards/${cardId}/likes`, {
-      method: methodUsed,
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: `Bearer ${ localStorage.getItem('token') }`,
-      },
-    })
-    .then(this._parseResponse)
+    changeLikeCardStatus(cardId, isLiked) {
+      const methodUsed = isLiked ? 'PUT' : 'DELETE';
+      return fetch(`${this._link}cards/${cardId}/likes`, {
+        method: methodUsed,
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${ localStorage.getItem('token') }`,
+        },
+      })
+      .then(this._parseResponse)
   }
 }
 
