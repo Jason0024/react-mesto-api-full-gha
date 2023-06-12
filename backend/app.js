@@ -16,6 +16,16 @@ const mainRouter = require('./routes/index');
 
 const app = express();
 app.use(cors());
+//CORS config
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "OPTIONS, GET, POST, PUT, PATCH, DELETE" // what matters here is that OPTIONS is present
+  );
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  next();
+});
 
 //CORS alowd sites
 //const allowedCors = [
@@ -45,18 +55,6 @@ app.use(helmet());
 app.use(requestLogger);
 // Лимитер
 app.use(limiter);
-
-//CORS config
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "OPTIONS, GET, POST, PUT, PATCH, DELETE" // what matters here is that OPTIONS is present
-  );
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  next();
-});
-
 // Краш-тест
 app.get('/crash-test', () => {
   setTimeout(() => {
