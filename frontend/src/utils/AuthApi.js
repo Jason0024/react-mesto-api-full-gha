@@ -10,7 +10,6 @@ class AuthApi {
       return Promise.reject(`код ошибки: ${res.status}`);
     }
   }
-  
   // Метод верификации токена
   verifyToken (token) {
     return fetch(`${this._authUrl}users/me`, {
