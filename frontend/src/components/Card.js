@@ -8,7 +8,7 @@ function Card({card, onCardClick, onCardLike, onCardDelete}) {
     // Подписка на контекст
     const userItem = React.useContext(CurrentUserContext);
     // Определение владения карточкой
-    const isOwn = card.owner._id === userItem._id;
+    const isOwn = card.owner === userItem._id;
     
     // Определение наличие поставленного лайка
     const isLiked = card.likes.some(i => i._id === userItem._id);
