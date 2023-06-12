@@ -47,22 +47,15 @@ app.use(requestLogger);
 app.use(limiter);
 
 //CORS config
-//app.use((req, res, next) => {
-//  const { origin } = req.headers;
-//  const { method } = req;
-//  const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
-//  const requestHeaders = req.headers['access-control-request-headers'];
-//  if (allowedCors.includes(origin)) {
-//    res.header('Access-Control-Allow-Origin', origin);
-//    res.header('Access-Control-Allow-Credentials', true);
-//  }
-//  if (method === 'OPTIONS') {
-//    res.header('Access-Control-Allow-Methods', DEFAULT_ALLOWED_METHODS);
-//    res.header('Access-Control-Allow-Headers', requestHeaders);
-//    return res.end();
-//  }
-//  return next();
-//});
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "OPTIONS, GET, POST, PUT, PATCH, DELETE" // what matters here is that OPTIONS is present
+  );
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  next();
+});
 
 // Краш-тест
 app.get('/crash-test', () => {
