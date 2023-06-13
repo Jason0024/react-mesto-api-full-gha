@@ -120,7 +120,7 @@ function App() {
   // Функция регистрации пользователя (при успехе(и нет) всплывает popup через Tooltip используя статус)
   function handleRegister(password, email) {
     apiAuth.userRegistration(password, email)
-      .then(() => { setTooltipOpen(true); setStatus(true) })
+      .then(() => { setTooltipOpen(true); setStatus(true); history.push('/'); })
       .catch((err) => { console.log(`Возникла ошибка при регистрации пользователя, ${err}`); setTooltipOpen(true); setStatus(false) })
   }
   // Функция авторизации пользователя (при неудаче всплывает popup через Tooltip используя статус)
